@@ -2,20 +2,10 @@ import React, { useState } from 'react';
 
 const AddPatientModal = ({ onAdd, onClose }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    fullName: '',
     dob: '',
     gender: '',
-    phone: '',
-    email: '',
-    address: '',
-    allergies: '',
-    medicalHistory: '',
-    currentMedications: '',
-    surgicalHistory: '',
-    hospitalAdmissions: '',
-    labResults: '',
-    referralInformation: ''
+    patientId: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -38,20 +28,33 @@ const AddPatientModal = ({ onAdd, onClose }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Patient name is required';
     }
 
     if (!formData.dob) {
       newErrors.dob = 'Date of birth is required';
+    } else {
+      // Validate MM/DD/YYYY format
+      const dobPattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+      if (!dobPattern.test(formData.dob)) {
+        newErrors.dob = 'Date must be in MM/DD/YYYY format';
+      } else {
+        // Additional validation to check if it's a valid date
+        const [month, day, year] = formData.dob.split('/').map(Number);
+        const date = new Date(year, month - 1, day);
+        if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+          newErrors.dob = 'Please enter a valid date';
+        }
+      }
     }
 
     if (!formData.gender) {
       newErrors.gender = 'Gender is required';
+    }
+
+    if (!formData.patientId.trim()) {
+      newErrors.patientId = 'Patient ID is required';
     }
 
     setErrors(newErrors);
@@ -68,18 +71,20 @@ const AddPatientModal = ({ onAdd, onClose }) => {
     // Format the data
     const patientData = {
       ...formData,
-      fullName: `${formData.lastName}, ${formData.firstName}`,
-      dob: new Date(formData.dob).toLocaleDateString('en-US'),
-      allergies: formData.allergies ? formData.allergies.split('\n').filter((a) => a.trim()) : [],
-      medicalHistory: formData.medicalHistory ? formData.medicalHistory.split('\n').filter((h) => h.trim()) : [],
-      currentMedications: formData.currentMedications
-        ? formData.currentMedications.split('\n').filter((m) => m.trim())
-        : [],
-      surgicalHistory: formData.surgicalHistory ? formData.surgicalHistory.split('\n').filter((s) => s.trim()) : [],
-      hospitalAdmissions: formData.hospitalAdmissions
-        ? formData.hospitalAdmissions.split('\n').filter((h) => h.trim())
-        : [],
-      labResults: formData.labResults ? formData.labResults.split('\n').filter((l) => l.trim()) : []
+      id: formData.patientId,
+      dob: formData.dob, // Already in MM/DD/YYYY format
+      // Set default empty values for other fields
+      phone: '',
+      email: '',
+      address: '',
+      allergies: [],
+      medicalHistory: [],
+      currentMedications: [],
+      surgicalHistory: [],
+      hospitalAdmissions: [],
+      labResults: [],
+      referralInformation: '',
+      mrn: (Math.floor(Math.random() * 900000) + 100000).toString()
     };
 
     onAdd(patientData);
@@ -97,41 +102,44 @@ const AddPatientModal = ({ onAdd, onClose }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">First Name *</label>
+            <label className="form-label">Patient Name *</label>
             <input
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="fullName"
+              value={formData.fullName}
               onChange={handleChange}
-              className={`input ${errors.firstName ? 'error' : ''}`}
-              placeholder="Enter first name"
+              className={`input ${errors.fullName ? 'error' : ''}`}
+              placeholder="Enter full patient name"
             />
-            {errors.firstName && <div className="error-text">{errors.firstName}</div>}
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Last Name *</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className={`input ${errors.lastName ? 'error' : ''}`}
-              placeholder="Enter last name"
-            />
-            {errors.lastName && <div className="error-text">{errors.lastName}</div>}
+            {errors.fullName && <div className="error-text">{errors.fullName}</div>}
           </div>
 
           <div className="form-group">
             <label className="form-label">Date of Birth *</label>
             <input
-              type="date"
+              type="text"
               name="dob"
               value={formData.dob}
               onChange={handleChange}
               className={`input ${errors.dob ? 'error' : ''}`}
+              placeholder="MM/DD/YYYY"
+              pattern="^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$"
+              title="Please enter date in MM/DD/YYYY format"
             />
             {errors.dob && <div className="error-text">{errors.dob}</div>}
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">EMPI *</label>
+            <input
+              type="text"
+              name="patientId"
+              value={formData.patientId}
+              onChange={handleChange}
+              className={`input ${errors.patientId ? 'error' : ''}`}
+              placeholder="Enter patient ID"
+            />
+            {errors.patientId && <div className="error-text">{errors.patientId}</div>}
           </div>
 
           <div className="form-group">
@@ -148,90 +156,6 @@ const AddPatientModal = ({ onAdd, onClose }) => {
               <option value="Other">Other</option>
             </select>
             {errors.gender && <div className="error-text">{errors.gender}</div>}
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Phone</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="input"
-              placeholder="(555) 123-4567"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="input"
-              placeholder="patient@example.com"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Address</label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="input"
-              placeholder="123 Main St, City, State 12345"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Allergies (one per line)</label>
-            <textarea
-              name="allergies"
-              value={formData.allergies}
-              onChange={handleChange}
-              className="input"
-              rows="3"
-              placeholder="Penicillin - Drug - Severity: Severe"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Medical History (one per line)</label>
-            <textarea
-              name="medicalHistory"
-              value={formData.medicalHistory}
-              onChange={handleChange}
-              className="input"
-              rows="3"
-              placeholder="Asthma"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Current Medications (one per line)</label>
-            <textarea
-              name="currentMedications"
-              value={formData.currentMedications}
-              onChange={handleChange}
-              className="input"
-              rows="3"
-              placeholder="Lisinopril - 10mg - Once daily"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Referral Information</label>
-            <input
-              type="text"
-              name="referralInformation"
-              value={formData.referralInformation}
-              onChange={handleChange}
-              className="input"
-              placeholder="Dr. Smith - Cardiology consultation"
-            />
           </div>
 
           <div className="form-actions">
