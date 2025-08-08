@@ -1,0 +1,158 @@
+.patient-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.search-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.search-input {
+  max-width: 400px;
+  margin-bottom: 0;
+}
+
+.actions-section {
+  display: flex;
+  align-items: center;
+}
+
+.patient-list-title {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.patient-list-title h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.patient-count {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.patient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.patient-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.patient-item:hover {
+  background-color: #f8f9fa;
+  margin: 0 -20px;
+  padding: 15px 20px;
+  border-radius: 4px;
+}
+
+.patient-item:last-child {
+  border-bottom: none;
+}
+
+.patient-link {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.patient-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.patient-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patient-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.patient-details {
+  font-size: 14px;
+  color: #666;
+}
+
+.patient-dob {
+  color: #666;
+}
+
+.patient-id {
+  color: #666;
+  font-weight: 500;
+}
+
+.remove-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  margin-left: 10px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.patient-item:hover .remove-btn {
+  opacity: 1;
+}
+
+.no-patients {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .patient-list-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-section {
+    min-width: auto;
+  }
+
+  .actions-section {
+    justify-content: center;
+  }
+
+  .patient-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .patient-link {
+    width: 100%;
+  }
+
+  .remove-btn {
+    align-self: flex-end;
+    margin-left: 0;
+  }
+}
