@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const AddPatientModal = ({ onAdd, onClose }) => {
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     dob: '',
     gender: '',
     patientId: ''
@@ -28,8 +28,8 @@ const AddPatientModal = ({ onAdd, onClose }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Patient name is required';
+    if (!formData.name.trim()) {
+      newErrors.name = 'Patient name is required';
     }
 
     if (!formData.dob) {
@@ -105,13 +105,13 @@ const AddPatientModal = ({ onAdd, onClose }) => {
             <label className="form-label">Patient Name *</label>
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              className={`input ${errors.fullName ? 'error' : ''}`}
+              className={`input ${errors.name ? 'error' : ''}`}
               placeholder="Enter full patient name"
             />
-            {errors.fullName && <div className="error-text">{errors.fullName}</div>}
+            {errors.name && <div className="error-text">{errors.name}</div>}
           </div>
 
           <div className="form-group">

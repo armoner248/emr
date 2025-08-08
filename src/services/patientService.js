@@ -3,11 +3,11 @@ const STORAGE_KEY = 'patients';
 // Sample patient data to initialize localStorage
 const samplePatients = [
   {
-    id: 'P-12346789',
+    id: 'P12346789',
     mrn: '5751511204',
     firstName: 'Laura',
     lastName: 'Hickle',
-    fullName: 'Hickle, Laura I.',
+    name: 'Hickle, Laura I.',
     dob: '03/29/1946',
     gender: 'Female',
     phone: '(555) 123-4567-1234',
@@ -37,7 +37,7 @@ const samplePatients = [
     mrn: '7806778761',
     firstName: 'Chaya',
     lastName: 'Lockman',
-    fullName: 'Lockman, Chaya M.',
+    name: 'Lockman, Chaya M.',
     dob: '02/27/1944',
     gender: 'Female',
     phone: '(555) 987-6543',
@@ -56,7 +56,7 @@ const samplePatients = [
     mrn: '19174435',
     firstName: 'Test',
     lastName: 'Ab',
-    fullName: 'Ab, Test',
+    name: 'Ab, Test',
     dob: '12/31/2020',
     gender: 'Male',
     phone: '(555) 111-2222',
@@ -131,7 +131,7 @@ class PatientService {
     const lowerQuery = query.toLowerCase();
     return patients.filter(
       (patient) =>
-        patient.fullName.toLowerCase().includes(lowerQuery) ||
+        patient.name.toLowerCase().includes(lowerQuery) ||
         patient.firstName.toLowerCase().includes(lowerQuery) ||
         patient.lastName.toLowerCase().includes(lowerQuery) ||
         patient.id.toLowerCase().includes(lowerQuery) ||

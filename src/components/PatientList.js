@@ -103,7 +103,7 @@ const PatientList = () => {
               <div key={patient.id} className="patient-item">
                 <Link to={`/patient/${patient.id}`} className="patient-link">
                   <div className="patient-info">
-                    <div className="patient-name">{patient.fullName}</div>
+                    <div className="patient-name">{patient.name}</div>
                     <div className="patient-details">
                       <span className="patient-dob">DOB: {patient.dob}</span>
                       {patient.id && patient.id !== patient.mrn && <span className="patient-id"> : {patient.id}</span>}

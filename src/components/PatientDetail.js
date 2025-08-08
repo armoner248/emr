@@ -3,6 +3,30 @@ import { useParams, Link } from 'react-router-dom';
 import patientService from '../services/patientService';
 import './PatientDetail.css';
 
+const patientStaticData = {
+    phone: '97733XXX77',
+    email: 'patient@emraadi.com',
+    address: 'Innovaccer, Noida, India',
+    allergies: [
+      'Penicillin - Drug - Severity: Severe',
+      'Peanuts - Food - Severity: Moderate',
+      'Dust - Environmental - Severity: Mild'
+    ],
+    medicalHistory: ['Asthma', 'Hypertension', 'Migraines'],
+    currentMedications: ['Lisinopril - 10mg - Once daily', 'Albuterol - Inhaler - As needed'],
+    surgicalHistory: [
+      'Appendectomy - 2015-03-20 - Outcome: Successful',
+      'Gallbladder Removal - 2019-11-05 - Outcome: Successful'
+    ],
+    hospitalAdmissions: ['St. Health Hospital - 2023-06-25 - Reason: Asthma Exacerbation'],
+    labResults: [
+      'Complete Blood Count: Normal (Date: 2024-12-01)',
+      'Cholesterol: 200 mg/dL (Date: 2024-12-01)',
+      'Blood Glucose: 95 mg/dL (Date: 2024-12-01)'
+    ],
+    referralInformation: 'Dr. Alex Karev - Referral for Chest X-Ray'
+  }
+
 const PatientDetail = () => {
   const { id } = useParams();
   const [patient, setPatient] = useState(null);
@@ -75,12 +99,12 @@ const PatientDetail = () => {
       <div className="patient-detail-content">
         <div className="patient-detail-header">
           <div className="patient-header-info">
-            <h1 className="patient-name">{patient.fullName}</h1>
+            <h1 className="patient-name">{patient.name}</h1>
             <div className="patient-meta">
               <span className="patient-dob">DOB: {patient.dob}</span>
               <span className="patient-gender">Gender: {patient.gender}</span>
               <div className="patient-ids">
-                <span className="badge patient-id-badge">PATIENT ID: {patient.id}</span>
+                <span className="badge patient-id-badge">EMPI: {patient.id}</span>
                 <span className="badge mrn-badge">MRN: {currentMrn}</span>
                 <button 
                   className="btn btn-secondary change-mrn-btn" 
@@ -98,43 +122,43 @@ const PatientDetail = () => {
           <InfoCard title="Contact Information">
             <div className="contact-info">
               <div className="contact-item">
-                <strong>Phone:</strong> {patient.phone || 'Not provided'}
+                <strong>Phone:</strong> {patientStaticData.phone || 'Not provided'}
               </div>
               <div className="contact-item">
-                <strong>Email:</strong> {patient.email || 'Not provided'}
+                <strong>Email:</strong> {patientStaticData.email || 'Not provided'}
               </div>
               <div className="contact-item">
-                <strong>Address:</strong> {patient.address || 'Not provided'}
+                <strong>Address:</strong> {patientStaticData.address || 'Not provided'}
               </div>
             </div>
           </InfoCard>
 
-          <InfoCard title="Allergies">
-            <InfoList items={patient.allergies} emptyMessage="No known allergies" />
+          <InfoCard title="Coding Gaps">
+            <InfoList items={patientStaticData.allergies} emptyMessage="No known allergies" />
           </InfoCard>
 
-          <InfoCard title="Medical History">
-            <InfoList items={patient.medicalHistory} emptyMessage="No medical history recorded" />
+          <InfoCard title="Care Gaps">
+            <InfoList items={patientStaticData.medicalHistory} emptyMessage="No medical history recorded" />
           </InfoCard>
 
-          <InfoCard title="Current Medications">
-            <InfoList items={patient.currentMedications} emptyMessage="No current medications" />
+          <InfoCard title="Medications">
+            <InfoList items={patientStaticData.currentMedications} emptyMessage="No current medications" />
           </InfoCard>
 
-          <InfoCard title="Surgical History">
-            <InfoList items={patient.surgicalHistory} emptyMessage="No surgical history" />
+          <InfoCard title="Acute Visits">
+            <InfoList items={patientStaticData.surgicalHistory} emptyMessage="No surgical history" />
           </InfoCard>
 
-          <InfoCard title="Hospital Admissions">
-            <InfoList items={patient.hospitalAdmissions} emptyMessage="No hospital admissions" />
+          <InfoCard title="Immunizations">
+            <InfoList items={patientStaticData.hospitalAdmissions} emptyMessage="No hospital admissions" />
           </InfoCard>
 
           <InfoCard title="Lab Results">
-            <InfoList items={patient.labResults} emptyMessage="No lab results available" />
+            <InfoList items={patientStaticData.labResults} emptyMessage="No lab results available" />
           </InfoCard>
 
           <InfoCard title="Referral Information">
-            <div className="referral-info">{patient.referralInformation || 'No referral information'}</div>
+            <div className="referral-info">{patientStaticData.referralInformation || 'No referral information'}</div>
           </InfoCard>
         </div>
       </div>
