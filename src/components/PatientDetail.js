@@ -105,7 +105,7 @@ const PatientDetail = () => {
               <span className="patient-gender">Gender: {patient.gender}</span>
               <div className="patient-ids">
                 <span className="badge patient-id-badge">EMPI: {patient.id}</span>
-                <span className="badge mrn-badge">MRN: {currentMrn}</span>
+                <span className="badge mrn-badge">PRN: {currentMrn}</span>
                 <button 
                   className="btn btn-secondary change-mrn-btn" 
                   onClick={generateNewMrn}
